@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.uce.edu.modelo.Matricula;
@@ -22,53 +23,46 @@ public class GestorMatriculaServiceImpl implements IGestorMatriculaService {
 
 	@Autowired
 	private IMatriculaService matriculaService;
+	
+	@Autowired
+	@Qualifier("liviano")
+	private IMatriculaVehicularService vehiL;
+	
+	@Autowired
+	@Qualifier("pesado")
+	private IMatriculaVehicularService vehiP;
 
 	@Override
 	public void matricularVehiculo(String cedulaPropietario, String placaVehiculo) {
 		// TODO Auto-generated method stub
 
 		Vehiculo v = this.vehiculoService.buscarPorPlaca(placaVehiculo);
-
 		Propietario p = this.propietarioService.buscarPorCedula(cedulaPropietario);
 
 		Matricula m = new Matricula();
 		m.setFechaMatricula(LocalDateTime.now());
 		m.setPropietario(p);
+		BigDecimal valMatricula = null;
 
 		if (v.getTipo().equals("L")) {
-
-			BigDecimal val1 = v.getPrecio().multiply(new BigDecimal(0.10));
-
-			BigDecimal valm = val1.subtract(this.verificarValor(val1));
-
-			m.setValorMatricula(valm.setScale(2, RoundingMode.HALF_UP));
-		}
-		if (v.getTipo().equals("P")) {
-			BigDecimal val1 = v.getPrecio().multiply(new BigDecimal(0.15));
-
-			BigDecimal valm = val1.subtract(this.verificarValor(val1));
-
-			m.setValorMatricula(valm.setScale(2, RoundingMode.HALF_UP));
+			valMatricula = this.vehiL.calcularDescuento(v.getPrecio());	
+		}else if (v.getTipo().equals("P")) {
+			valMatricula = this.vehiP.calcularDescuento(v.getPrecio());
 		}
 		
+		if(valMatricula.compareTo(new BigDecimal(2000))>0) {
+			System.out.println("Aplicando descuento : "+valMatricula);
+			BigDecimal valDescuento = valMatricula.multiply(new BigDecimal(0.07));
+			valMatricula = valMatricula.subtract(valDescuento);
+		}
+		
+		m.setValorMatricula(valMatricula.setScale(2,RoundingMode.HALF_UP));
 		m.setVehiculo(v);
 		
-		this.matriculaService.actualizarMatricula(m);
+		this.matriculaService.insertarMatricula(m);
 
 	}
 
-	private BigDecimal verificarValor(BigDecimal valorMatricula) {
-
-		BigDecimal val1 = new BigDecimal(0);
-
-		if (valorMatricula.compareTo(new BigDecimal(2000)) > 0) {
-			System.out.println("Aplicando descuento ");
-
-			return valorMatricula.multiply(new BigDecimal(0.7));
-		} else {
-			return val1;
-		}
-
-	}
+	
 
 }

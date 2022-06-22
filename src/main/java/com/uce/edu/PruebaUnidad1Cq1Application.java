@@ -36,6 +36,7 @@ public class PruebaUnidad1Cq1Application implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
+		//1 insertar vehiculo
 		Vehiculo v = new Vehiculo();
 		v.setMarca("Chevrolet");
 		v.setPlaca("AXS-2541");
@@ -45,15 +46,13 @@ public class PruebaUnidad1Cq1Application implements CommandLineRunner{
 		this.vehiculoService.insertarVehiculo(v);
 		
 		
-		Vehiculo vActalizado = new Vehiculo();
-		vActalizado.setMarca("Chevrolet");
-		vActalizado.setPlaca("AXS-2001");
-		vActalizado.setPrecio(new BigDecimal(20510));
-		vActalizado.setTipo("L");
+		//2 actualizar vehiculo
+		v.setMarca("Chevrolet");
+		v.setPrecio(new BigDecimal(30520));
 		
-		this.vehiculoService.actualizarVehiculo(vActalizado);
+		this.vehiculoService.actualizarVehiculo(v);
 		
-		
+		//3 insertar Propietario
 		Propietario p1 = new Propietario();
 		p1.setApellido("Quizhpe");
 		p1.setCedula("1212121212");
@@ -62,10 +61,9 @@ public class PruebaUnidad1Cq1Application implements CommandLineRunner{
 		
 		this.propietarioService.insertarPropietario(p1);
 		
-		
-		
+	
+		//4 generar matricula
 		this.gestorService.matricularVehiculo("1212121212", "AXS-2001");
-		
 		
 	}
 

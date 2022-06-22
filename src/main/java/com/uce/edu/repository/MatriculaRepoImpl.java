@@ -16,7 +16,7 @@ public class MatriculaRepoImpl implements IMatriculaRepo{
 	@Override
 	public void insertar(Matricula matricula) {
 		// TODO Auto-generated method stub
-		System.out.println("Insertando matricula ");
+		System.out.println("Insertando matricula: "+matricula.toString());
 	}
 
 	@Override

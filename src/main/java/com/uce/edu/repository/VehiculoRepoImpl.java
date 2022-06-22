@@ -1,5 +1,6 @@
 package com.uce.edu.repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class VehiculoRepoImpl implements IVehiculoRepo{
 	@Override
 	public void insertar(Vehiculo vehiculo) {
 		// TODO Auto-generated method stub
-		System.out.println("Insertando vehiculo Liviano:");
+		System.out.println("Insertando vehiculo Liviano: "+vehiculo.toString());
 		listaVehi.add( vehiculo);
 		
 	}
@@ -27,7 +28,7 @@ public class VehiculoRepoImpl implements IVehiculoRepo{
 	@Override
 	public void actualizar(Vehiculo vehiculo) {
 		// TODO Auto-generated method stub
-		System.out.println("Actualizando vehiculo ");
+		System.out.println("Actualizando vehiculo: "+vehiculo.toString());
 	}
 
 	@Override
@@ -35,4 +36,6 @@ public class VehiculoRepoImpl implements IVehiculoRepo{
 		// TODO Auto-generated method stub
 		System.out.println("Eliminando vehiculo por placa "+placa);
 	}
+
+	
 }

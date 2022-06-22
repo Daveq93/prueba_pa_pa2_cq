@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 public class Vehiculo {
 
-	protected String marca;
-	protected String placa;
-	protected String tipo;
-	protected BigDecimal precio;
+	private String marca;
+	private String placa;
+	private String tipo;
+	private BigDecimal precio;
 
 	@Override
 	public String toString() {
